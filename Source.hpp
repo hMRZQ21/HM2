@@ -5,6 +5,18 @@
 #include <cmath>
 using namespace std; 
 
+void SeperatorList(int num){
+	switch(num){
+		case 1: for(int i=0; i<=6; i++){ cout << "-"; } cout << endl; break; 
+		case 2: for(int i=0; i<=11; i++){ cout << "-"; } cout << endl; break; 
+		case 3: for(int i=0; i<=22; i++){ cout << "-"; } cout << endl; break; 
+		case 4: for(int i=0; i<=36; i++){ cout << "-"; } cout << endl; break; 
+		case 5: for(int i=0; i<=42; i++){ cout << "-"; } cout << endl; break; 
+		case 6: for(int i=0; i<=46; i++){ cout << "-"; } cout << endl; break; 
+		case 7: for(int i=0; i<=55; i++){ cout << "-"; } cout << endl; break; 
+	}
+}
+
 bool MenuStatus(char confirmation){
 	bool menuON;
 	if(confirmation == 'Y' || confirmation == 'y'){ cout << "BYE!\n"; menuON = false; }
@@ -23,18 +35,6 @@ bool HexValidation(string hex){
 bool validate(bool condition){
 	if(cin.fail()){ cin.clear(); cin.ignore(); cout << "Incorrect input. Try again: "; return false; }
 	return true;
-}
-
-void SeperatorList(int num){
-	switch(num){
-		case 1: for(int i=0; i<=6; i++){ cout << "-"; } cout << endl; break; 
-		case 2: for(int i=0; i<=11; i++){ cout << "-"; } cout << endl; break; 
-		case 3: for(int i=0; i<=22; i++){ cout << "-"; } cout << endl; break; 
-		case 4: for(int i=0; i<=36; i++){ cout << "-"; } cout << endl; break; 
-		case 5: for(int i=0; i<=42; i++){ cout << "-"; } cout << endl; break; 
-		case 6: for(int i=0; i<=46; i++){ cout << "-"; } cout << endl; break; 
-		case 7: for(int i=0; i<=55; i++){ cout << "-"; } cout << endl; break; 
-	}
 }
 
 void PrintSourceMenu(){
