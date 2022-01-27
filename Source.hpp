@@ -93,7 +93,7 @@ void ToHex(int decimal){ // does conversions to hex
 		n /= 16;
 	}
 	for(int j=i-1; j>=0; j--){ cout << hex[j]; }
-	cout << endl;
+	cout << endl << endl; MenuStatus('n');
 }
 
 void SourceToSource(int membersOfR, int innerMenusInput, string sourceNums){ // does base to base conversions
