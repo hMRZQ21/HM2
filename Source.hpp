@@ -26,13 +26,13 @@ bool MenuStatus(char confirmation){
 	return menuON;
 }
 
-bool HexValidation(string hex){
+bool HexValidation(string hex){ //used in validation loop for hex input
 	bool validHex = false; int i;
 	for(i=0; i<hex.size(); i++){ if(!isxdigit(hex[i])){ return false; }}
 	return true;
 }
 
-bool validate(bool condition){
+bool validate(bool condition){ //also used in the hex validation loop
 	if(cin.fail()){ cin.clear(); cin.ignore(); cout << "Incorrect input. Try again: "; return false; }
 	return true;
 }
@@ -84,7 +84,7 @@ void PrintConvMenu(int membersOfR, int innerMenusInput){
 	cout << "INPUT YOUR NUMBER IN SOURCE NUMBER SYSTEM:\n"; SwitchList(membersOfR);
 }
 
-void ToHex(int decimal){
+void ToHex(int decimal){ // does conversions to hex 
 	int n = decimal, i = 0, temp; string hex = "";
 	while(n != 0){
 		temp = 0; temp = n%16;
@@ -96,7 +96,7 @@ void ToHex(int decimal){
 	cout << endl;
 }
 
-void SourceToSource(int membersOfR, int innerMenusInput, string sourceNums){
+void SourceToSource(int membersOfR, int innerMenusInput, string sourceNums){ // does base to base conversions
 	SwitchList(innerMenusInput); 
 	int base = membersOfR, digitized = 0, toDec = 0, result = 0, t = 1;
 	for(int i=0; i<sourceNums.size(); i++){
@@ -109,7 +109,7 @@ void SourceToSource(int membersOfR, int innerMenusInput, string sourceNums){
 	}
 }
 
-void HexToAny(string hex, int innerMenusInput){
+void HexToAny(string hex, int innerMenusInput){ //does hex to base conversions
 	SwitchList(innerMenusInput);
 	if(innerMenusInput == 16){ cout << hex << endl; }
 	else{
