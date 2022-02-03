@@ -16,3 +16,5 @@ It also has a simple form of exception handling. Perhaps I can also improve on t
 
 Exception handling for this program can be extended into the fact that the user can input an invalid number for the specific base system,
 for example, 102 would be an invalid binary number. This program does not check for that yet. Perhaps an update to this program would validate this. 
+
+I also discovered an issue with converting from Hexacedimal to other bases. There seems to be a threshold where the value overflows and results in the incorrect output. I plan on also getting to the bottom of this.
