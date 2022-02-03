@@ -2,71 +2,78 @@
 #include "Source.hpp"
 using namespace std;
 
-int membersOfR, innerMenusInput; //to store user's menu options
-char confirmation; //to store user Yes/No
+int R, innerInput; //to store user's menu options
 bool menuON = true, correctInput, condition;
-string sourceNums; //to store user inputs
+string membersOfR, innerMenusInput, sourceNums, confirmation; //to store user inputs
 
 int main(int argc, char* argv[]){
-	do{
+	do { 
 		PrintMainMenu(); correctInput = false;
-		while(!correctInput){ cin >> membersOfR; condition = cin.fail(); correctInput = validate(condition); }
-		switch(membersOfR){
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:	// cascading cases
-			case 7: 
-			case 8:
-			case 9:
-			case 10:{
-				PrintTargetMenu(membersOfR); correctInput = false;
-				while(!correctInput){
-					cin >> innerMenusInput; condition = cin.fail(); correctInput = validate(condition);
-				}
-				if(!(innerMenusInput >= 2 && innerMenusInput <= 10) && innerMenusInput != 16){
-					PrintExitMenu(innerMenusInput); cin >> confirmation; menuON = MenuStatus(confirmation);
-				}
-				else{
-					PrintConvMenu(membersOfR, innerMenusInput); cin >> sourceNums;
-					SourceToSource(membersOfR, innerMenusInput, sourceNums); break;
-				}
-				break;
-			}
+		
+		while(!correctInput){ // datatype handling
+			try{ cin >> membersOfR; R = stoi(membersOfR); correctInput = true; }
+			catch(...){ cout << "Please enter a valid number: "; }
+		}
 
-			case 16:{
-				PrintTargetMenu(membersOfR); correctInput = false;
-				while(!correctInput){
-					cin >> innerMenusInput; condition = cin.fail(); correctInput = validate(condition); 
+		switch(R){
+			case 2: case 3: case 4: case 5: case 6:	case 7: case 8: case 9: case 10: 
+			case 16: { // cascading cases
+				PrintTargetMenu(R); correctInput = false;
+				
+				while(!correctInput){ // datatype handling
+					try{ cin >> innerMenusInput; innerInput = stoi(innerMenusInput); correctInput = true; }
+					catch(...){ cout << "Please enter a valid number: "; }
 				}
-				if(!(innerMenusInput >= 2 && innerMenusInput <= 10) && innerMenusInput != 16){
-					PrintExitMenu(innerMenusInput); cin >> confirmation; menuON = MenuStatus(confirmation);
-				}	
-				else{
-					int counter = 0; PrintConvMenu(membersOfR, innerMenusInput);
-					while(counter<5){ // input validation loop
-						cin >> sourceNums;
-						if(HexValidation(sourceNums)){ HexToAny(sourceNums, innerMenusInput); break; }
-						// actual conversions when hex is valid
-						else { counter++;
+				
+				if(!(innerInput >= 2 && innerInput <= 10) && innerInput != 16){
+					PrintExitMenu(innerInput); correctInput = false;
+					
+					while(!correctInput){ // validation loop
+						cin >> confirmation; string lowerCaseConfirm = LowerCase(confirmation);
+						if(ExitValidation(lowerCaseConfirm)){
+							menuON = MenuStatus(lowerCaseConfirm); correctInput = true;
+						}
+						else{ cout << "Invalid input. Try again: "; correctInput = false; }
+					} break;
+				}
+
+				else { // once input has been validated
+					if(R != 16){ // non hex branch
+						PrintConvMenu(R, innerInput); cin >> sourceNums;
+						SourceToSource(R, innerInput, sourceNums); break;
+					}
+					else { // hex branch will work slightly differently
+						int counter = 0; PrintConvMenu(R, innerInput);
+						
+						while(counter<5){ // input validation loop
+							cin >> sourceNums; 
+							if(HexValidation(sourceNums)){ HexToAny(sourceNums, innerInput); break; }
+							
+							counter++; // if the input is incorrect, program begins counting incorrect inputs
 							if(counter == 5){
-								cout << "NOT A VALID NUMBER!\nYOU WILL BE RETURED TO THE MAIN MENU.\n"; SeperatorList(7);
+								cout << "\nNot a valid hex number!\nYou will be returned to the main menu.\n"; 
+								SeperatorList(7);
 							}
-							else{ cout << "NOT A VALID NUMBER! TRY AGAIN:\n" << "HEXADECIMAL: "; }
+							else { cout << "Not a valid hex number! Try again:\n" << "Hexadecimal: "; }							
 						}
 					}
-				}
-				break;
+				} break;
 			}
+
+			default: { // exit menu
+				PrintExitMenu(R); correctInput = false;
 				
-			default:{
-				PrintExitMenu(membersOfR); cin >> confirmation; menuON = MenuStatus(confirmation);
-				cout << endl; break;
+				while(!correctInput){ //input validation
+					cin >> confirmation; string lowerCaseConfirm = LowerCase(confirmation);
+					if(ExitValidation(lowerCaseConfirm)){
+						menuON = MenuStatus(lowerCaseConfirm); correctInput = true;
+					}
+					else { cout << "Invalid input. Try again: "; correctInput = false; }
+				} cout << endl; break;
 			}
 		}
-	}
-  while(menuON == true);
+	} while(menuON == true);
  return 0;
 }
-// datatype handling only works for one character at a time, because it doesn't implement streams. 
+// hex to binary overflows at a certain point
+// validation for number base inputs
